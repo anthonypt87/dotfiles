@@ -27,7 +27,7 @@ ZSH_THEME="pygmalion"
 DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
-# DISABLE_CORRECTION="true"
+DISABLE_CORRECTION="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
@@ -46,3 +46,33 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/git/bin
+
+#
+# COMPLETION SETTINGS
+# add custom completion scripts
+fpath=(~/.completions $fpath)
+
+# compsys initialization
+autoload -U compinit
+compinit
+
+bindkey -v
+bindkey '^R' history-incremental-search-backward
+bindkey "^?" backward-delete-char
+bindkey "^W" backward-kill-word
+bindkey "^H" backward-delete-char      # Control-h also deletes the previous char
+bindkey "^U" kill-line
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+function find_all_ssh_agent_sockets() {
+    find /tmp -type s -name agent.\* 2> /dev/null | grep '/tmp/ssh-.*/agent.*'
+}
+
+function set_ssh_agent_socket() {
+    export SSH_AUTH_SOCK=$(find_all_ssh_agent_sockets | tail -n 1 | awk -F: '{print $1}')
+}
+
+alias l="ls -altr"
