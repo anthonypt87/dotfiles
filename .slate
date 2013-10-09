@@ -1,0 +1,80 @@
+# basics
+config defaultToCurrentScreen true
+config nudgePercentOf screenSize
+config resizePercentOf screenSize
+
+config checkDefaultsOnLoad true
+config windowHintsShowIcons true
+config windowHintsIgnoreHiddenWindows false
+config windowHintsDuration 5
+config windowHintsSpread true
+config windowHintsOrder persist
+
+# monitor aliases
+alias mon-1  0
+alias mon-2  1
+alias mon-3  2
+
+# Abstract positions:
+alias full          move screenOriginX;screenOriginY                  screenSizeX;screenSizeY
+alias mid           move screenOriginX+screenSizeX/8;screenOriginY+screenSizeY/10         screenSizeX/8*6;screenSizeY/10*8
+alias tophalf       move screenOriginX;screenOriginY                  screenSizeX;screenSizeY/2
+alias bottomhalf    move screenOriginX;screenOriginY+screenSizeY/2    screenSizeX;screenSizeY/2
+alias lefthalf      move screenOriginX;screenOriginY                  screenSizeX/2;screenSizeY
+alias leftmost      move screenOriginX;screenOriginY                  screenSizeX*0.6;screenSizeY
+alias leftless      move screenOriginX;screenOriginY                  screenSizeX*0.4;screenSizeY
+alias leftsliver    move screenOriginX;screenOriginY                  screenSizeX*0.25;screenSizeY
+alias righthalf     move screenOriginX+screenSizeX/2;screenOriginY    screenSizeX/2;screenSizeY
+alias rightmost     move screenOriginX+screenSizeX*0.4;screenOriginY  screenSizeX*0.6;screenSizeY
+alias rightless     move screenOriginX+screenSizeX*0.6;screenOriginY  screenSizeX*0.4;screenSizeY
+alias righttop      move screenOriginX+screenSizeX/2;screenOriginY    screenSizeX/2;screenSizeY/2
+alias rightbottom   move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY/2 screenSizeX/2;screenSizeY/2
+
+# Concrete positions
+alias 1-full        ${full}       ${mon-1}
+alias 1-mid         ${mid}        ${mon-1}
+alias 1-tophalf     ${tophalf}    ${mon-1}
+alias 1-bottomhalf  ${bottomhalf} ${mon-1}
+alias 1-left        ${lefthalf}   ${mon-1}
+alias 1-right       ${righthalf}  ${mon-1}
+alias 2-full        ${full}       ${mon-2}
+alias 2-mid         ${mid}        ${mon-2}
+alias 2-tophalf     ${tophalf}    ${mon-1}
+alias 2-bottomhalf  ${bottomhalf} ${mon-1}
+alias 2-left        ${lefthalf}   ${mon-2}
+alias 2-right       ${righthalf}  ${mon-2}
+alias 3-full        ${full}       ${mon-3}
+alias 3-mid         ${mid}        ${mon-3}
+alias 3-tophalf     ${tophalf}    ${mon-1}
+alias 3-bottomhalf  ${bottomhalf} ${mon-1}
+alias 3-left        ${tophalf}    ${mon-3}
+alias 3-right       ${bottomhalf} ${mon-3}
+
+alias hyper ctrl;alt;cmd
+alias focusser alt;cmd
+
+# VIM bindings
+# With 'defaultToCurrentMonitor' set to true, we intentionally try an invalid
+# monitor ID so that the movie is attempted on the current screen. Then we
+# rotate in the specified order.
+bind k:${hyper}   chain ${full} 5       | ${2-full}       | ${1-full}       | ${3-full}
+bind j:${hyper}   chain ${mid} 5        | ${2-mid}        | ${1-mid}        | ${3-mid}
+bind k:shift;alt;cmd  chain ${tophalf} 5    | ${2-tophalf}    | ${1-tophalf}    | ${3-tophalf}
+bind j:shift;alt;cmd  chain ${bottomhalf} 5 | ${2-bottomhalf} | ${1-bottomhalf} | ${3-bottomhalf}
+bind h:${hyper}   chain ${lefthalf} 5   | ${2-left}       | ${1-left}       | ${3-left}
+bind l:${hyper}   chain ${righthalf} 5  | ${2-right}      | ${1-right}      | ${3-right}
+
+# Focus 
+bind h:${focusser} focus left
+bind l:${focusser} focus right
+bind k:${focusser} focus up
+bind j:${focusser} focus down
+bind u:${focusser} focus behind
+
+# Window Hints
+bind ,:${hyper} hint
+
+# Focus
+bind u:${hyper} focus 'iTerm'
+bind i:${hyper} focus 'Google Chrome'
+bind o:${hyper} focus 'Adium'
