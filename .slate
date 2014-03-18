@@ -77,4 +77,4 @@ bind ,:${hyper} hint
 # Focus
 bind u:${hyper} focus 'iTerm'
 bind i:${hyper} focus 'Google Chrome'
-bind o:${hyper} focus 'Adium'
+bind o:${hyper} focus 'LimeChat'
